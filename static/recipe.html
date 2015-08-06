@@ -1,0 +1,139 @@
+<html lang="en" ng-app="StarterApp">
+
+<head>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.10.0/angular-material.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <meta name="viewport" content="initial-scale=1" />
+</head>
+<style type="text/css">
+.md-toolbar-tools a {
+    border-bottom: 1px solid #fff;
+}
+
+form {
+    margin-top: 20px;
+    padding-bottom: 0px;
+}
+
+.supported {
+    margin-bottom: 20px;
+    margin-top: 0px;
+}
+
+pre {
+    word-wrap: break-word;
+}
+
+.md-theme-light {
+    background-color: darkgreen;
+}
+</style>
+
+<body ng-controller="AppCtrl">
+    <div layout-sm="column" layout-gt-sm="row" layout-align="center">
+        <div flex-gt-sm=45 flex-sm=100>
+            <md-card>
+                <md-toolbar>
+                    <h2 class="md-toolbar-tools">
+                          <span>Demo for <a href="https://github.com/scttcper/hangry-py">Hangry-py</a> and <a href="https://github.com/scttcper/ingreedy-py">Ingreedy-py</a></span>
+                        </h2>
+                </md-toolbar>
+                <md-card-content>
+                    <p class="md-body-1 supported">Supported websites:
+                        <a target="_blank" href="http://www.foodnetwork.com/">foodnetwork.com</a>
+                        <a target="_blank" href="http://allrecipes.com/">allrecipes.com</a>
+                    </p>
+                    <md-divider class="ng-scope md-default-theme"></md-divider>
+                    <form name="recipeForm" ng-submit="getRecipe()">
+                        <md-content>
+                            <div layout="" layout-sm="row">
+                                <md-input-container flex=70>
+                                    <label>Recipe URL</label>
+                                    <input type="url" required name="recipeURL" ng-model="recipeURL" autofocus>
+                                </md-input-container>
+                                <md-input-container flex=30>
+                                    <md-button class="md-raised md-primary" type="submit">Submit</md-button>
+                                </md-input-container>
+                            </div>
+                        </md-content>
+                    </form>
+                </md-card-content>
+            </md-card>
+            <md-card ng-show="recipe">
+                <md-toolbar>
+                    <h2 class="md-toolbar-tools">
+                                <span><md-icon>&#xE86F;</md-icon> JSON </span>
+                            </h2>
+                </md-toolbar>
+                <md-card-content>
+                    <pre>{{ output }}</pre>
+                </md-card-content>
+            </md-card>
+        </div>
+        <div flex-gt-sm=45 flex-sm=100>
+            <md-card>
+                <md-toolbar class="md-theme-light">
+                    <h2 class="md-toolbar-tools">
+                                    <span>{{ recipe.name || 'Submit a URL' }} </span>
+                                </h2>
+                    <md-progress-linear md-mode="indeterminate" ng-show="loading"></md-progress-linear>
+                </md-toolbar>
+                <div layout="row" layout-align="center" ng-show="recipe">
+                    <div flex="50">
+                        <img ng-src="{{recipe.image_url}}">
+                    </div>
+                    <div flex="50" layout-padding="5">
+                        <p class="md-body-1">
+                            <md-icon>face</md-icon> {{ recipe.author }}</p>
+                        <p class="md-body-1">
+                            <md-icon>exit_to_app</md-icon> <a target="_blank" ng-href="{{ recipe.canonical_url }}">{{ recipe.domain }}</a></p>
+                        <p class="md-body-1">
+                            <md-icon>view_module</md-icon> {{ recipe.yields }} {{ recipe.yield_modifier }}</p>
+                        <p class="md-body-1">
+                            <md-icon>alarm_add</md-icon> prep {{ recipe.prep_time / 60 }} minutes</p>
+                        <p class="md-body-1">
+                            <md-icon>alarm</md-icon> total {{ recipe.total_time / 60 }} minutes</p>
+                        <p>{{ recipe.description }}</p>
+                    </div>
+                </div>
+                <md-card-content ng-show="recipe">
+                    <p aria-describedby="headings-output" class="md-subhead">Ingredients</p>
+                    <md-list-item ng-repeat="ingredient in recipe.ingredients">
+                        <md-checkbox></md-checkbox>
+                        <p class="md-body-1">{{ ingredient.amount }} {{ ingredient.unit }} {{ ingredient.ingredient }}</p>
+                    </md-list-item>
+                    <p aria-describedby="headings-output" class="md-subhead">Instructions</p>
+                    <md-list-item ng-repeat="instruction in recipe.instructions">
+                        <md-checkbox></md-checkbox>
+                        <p class="md-body-1">{{ instruction }}</p>
+                    </md-list-item>
+                </md-card-content>
+            </md-card>
+        </div>
+    </div>
+</body>
+<!-- Angular Material Dependencies -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-animate.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular-aria.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.10.0/angular-material.min.js"></script>
+<script type="text/javascript">
+var app = angular.module('StarterApp', ['ngMaterial']);
+
+app.controller('AppCtrl', function($scope, $http) {
+    $scope.recipeURL = 'http://allrecipes.com/Recipe/Rempel-Family-Meatloaf/Detail.aspx?soid=carousel_0_rotd&prop24=rotd';
+    $scope.getRecipe = function() {
+        $scope.loading = true;
+        $http.get('/get?url=' + encodeURIComponent($scope.recipeURL))
+            .then(function(response) {
+                // success
+                $scope.loading = false;
+                $scope.recipe = response.data;
+                $scope.output = angular.toJson(response.data, true);
+            }, function(response) {});
+    };
+});
+</script>
+
+</html>
