@@ -70,6 +70,7 @@ pre {
                     <pre>{{ output }}</pre>
                 </md-card-content>
             </md-card>
+            <p align="center"><a target="_blank" href="https://twitter.com/scttcper">@scttcper</a> - <a href="https://github.com/scttcper/ingreedy-hangry-demo">Source</a></p>
         </div>
         <div flex-gt-sm=45 flex-sm=100>
             <md-card>
@@ -122,7 +123,6 @@ pre {
 var app = angular.module('StarterApp', ['ngMaterial']);
 
 app.controller('AppCtrl', function($scope, $http) {
-    $scope.recipeURL = 'http://allrecipes.com/Recipe/Rempel-Family-Meatloaf/Detail.aspx?soid=carousel_0_rotd&prop24=rotd';
     $scope.getRecipe = function() {
         $scope.loading = true;
         $http.get('/get?url=' + encodeURIComponent($scope.recipeURL))
