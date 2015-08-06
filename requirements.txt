@@ -1,5 +1,6 @@
 beautifulsoup4==4.4.0
 Flask==0.10.1
+gunicorn==19.3.0
 hangrypy==1.0
 html5lib==0.999999
 ingreedypy==0.8
