@@ -132,7 +132,11 @@ app.controller('AppCtrl', function($scope, $http) {
                 $scope.loading = false;
                 $scope.recipe = response.data;
                 $scope.output = angular.toJson(response.data, true);
-            }, function(response) {});
+            }, function(response) {
+                $scope.recipe = {
+                    name: 'Error'
+                };
+            });
     };
 });
 </script>
