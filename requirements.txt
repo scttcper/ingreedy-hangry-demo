@@ -3,7 +3,7 @@ Flask==0.10.1
 gunicorn==19.3.0
 hangrypy==1.1
 html5lib==0.999999
-ingreedypy==1.0
+ingreedypy==1.1
 isodate==0.5.4
 itsdangerous==0.24
 Jinja2==2.8
