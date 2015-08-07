@@ -8,6 +8,7 @@ app = Flask(__name__)
 def home():
     return app.send_static_file('recipe.html')
 
+
 @app.route("/get")
 def recipe():
     url = request.args.get('url', '')
@@ -19,4 +20,4 @@ def recipe():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
