@@ -84,7 +84,7 @@ pre {
                     <div flex="50">
                         <img ng-src="{{recipe.image_url}}">
                     </div>
-                    <div flex="50" layout-padding="5">
+                    <div flex="50" layout-padding="3">
                         <p class="md-body-1">
                             <md-icon>face</md-icon> {{ recipe.author }}</p>
                         <p class="md-body-1">
@@ -92,17 +92,18 @@ pre {
                         <p class="md-body-1">
                             <md-icon>view_module</md-icon> {{ recipe.yields }} {{ recipe.yield_modifier }}</p>
                         <p class="md-body-1">
-                            <md-icon>alarm_add</md-icon> prep {{ recipe.prep_time / 60 }} minutes</p>
+                            <md-icon>alarm_add</md-icon> {{ recipe.prep_time / 60 }} minutes prep</p>
                         <p class="md-body-1">
-                            <md-icon>alarm</md-icon> total {{ recipe.total_time / 60 }} minutes</p>
-                        <p>{{ recipe.description }}</p>
+                            <md-icon>alarm</md-icon> {{ recipe.cook_time / 60 }} minutes cook time</p>
+                        <!-- <p>{{ recipe.description }}</p> -->
                     </div>
                 </div>
                 <md-card-content ng-show="recipe">
                     <p aria-describedby="headings-output" class="md-subhead">Ingredients</p>
                     <md-list-item ng-repeat="ingredient in recipe.ingredients">
                         <md-checkbox></md-checkbox>
-                        <p class="md-body-1">{{ ingredient.amount }} {{ ingredient.unit }} {{ ingredient.ingredient }}</p>
+                        <p class="md-body-1" ng-show="!ingredient.weight">{{ ingredient.amount }} {{ ingredient.unit }} {{ ingredient.ingredient }}</p>
+                        <p class="md-body-1" ng-show="ingredient.weight">{{ ingredient.amount }} ({{ ingredient.weight }} {{ ingredient.unit }}) {{ ingredient.ingredient }}</p>
                     </md-list-item>
                     <p aria-describedby="headings-output" class="md-subhead">Instructions</p>
                     <md-list-item ng-repeat="instruction in recipe.instructions">
