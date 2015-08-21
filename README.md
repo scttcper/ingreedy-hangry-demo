@@ -1,5 +1,5 @@
 # ingreedy-hangry-demo
-Demo for (hangry-py)[https://github.com/scttcper/hangry-py] and (ingreedy-py)[https://github.com/scttcper/ingreedy-py]
+Demo for [hangry-py](https://github.com/scttcper/hangry-py) and [ingreedy-py](https://github.com/scttcper/ingreedy-py)
 
 
 ## install
